@@ -1,21 +1,31 @@
 function analyze() {
   const repo = document.getElementById("repo").value;
+  const resultDiv = document.getElementById("result");
+
+  resultDiv.innerHTML = "<p>⏳ Analyzing repository...</p>";
 
   fetch("http://127.0.0.1:5000/analyze", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({repo_url: repo})
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ repo_url: repo })
   })
   .then(res => res.json())
   .then(data => {
-    document.getElementById("result").innerHTML =
-`Score: ${data.score}/100
+    resultDiv.innerHTML = `
+      <div class="result-card">
+        <div class="score">Score: ${data.score} / 100</div>
 
-Summary:
-${data.summary}
+        <div class="section-title">AI Mentor Summary</div>
+        <p>${data.summary}</p>
 
-Roadmap:
-- ${data.roadmap.join("\n- ")}
-`;
+        <div class="section-title">Personalized Roadmap</div>
+        <ul>
+          ${data.roadmap.map(item => `<li>${item}</li>`).join("")}
+        </ul>
+      </div>
+    `;
+  })
+  .catch(() => {
+    resultDiv.innerHTML = "<p style='color:red'>Error analyzing repository.</p>";
   });
 }
