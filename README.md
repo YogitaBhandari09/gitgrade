@@ -6,11 +6,6 @@ real strengths and weaknesses through a **Score / Rating, AI-style Summary, and 
 
 ---
 
-## 🚀 Live Demo (Streamlit)
-🔗 https://gitgrade-lajwbl8kqfzysbchhwquzr.streamlit.app/
-
----
-
 ## 🎥 Demo Video
 🔗 https://github.com/user-attachments/assets/fe9e7417-6970-4f24-9a9f-230de2660302
 
