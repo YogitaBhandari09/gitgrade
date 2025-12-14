@@ -1,5 +1,5 @@
 def calculate_score(data):
-    score = 0
+    breakdown = {}
 
     # ---------- 1. Project Structure (max 18) ----------
     if data["files"] <= 3:
@@ -10,7 +10,7 @@ def calculate_score(data):
         structure = 14
     else:
         structure = 18
-    score += structure
+    breakdown["Structure"] = structure
 
     # ---------- 2. Commit Consistency (max 18) ----------
     if data["commits"] < 5:
@@ -21,14 +21,14 @@ def calculate_score(data):
         commits = 14
     else:
         commits = 18
-    score += commits
+    breakdown["Commits"] = commits
 
-    # ---------- 3. Documentation Quality (max 16) ----------
+    # ---------- 3. Documentation (max 16) ----------
     if data["has_readme"]:
         documentation = 12
     else:
         documentation = 4
-    score += documentation
+    breakdown["Documentation"] = documentation
 
     # ---------- 4. Tech Stack Depth (max 16) ----------
     lang_count = len(data["languages"])
@@ -38,10 +38,9 @@ def calculate_score(data):
         tech = 12
     else:
         tech = 16
-    score += tech
+    breakdown["Tech Stack"] = tech
 
     # ---------- 5. Community / Relevance (max 12) ----------
-    # Reduced impact of stars
     if data["stars"] == 0:
         community = 3
     elif data["stars"] < 10:
@@ -50,36 +49,31 @@ def calculate_score(data):
         community = 9
     else:
         community = 12
-    score += community
+    breakdown["Relevance"] = community
 
-    # ---------- Penalize Trivial / Demo Repositories ----------
+    score = sum(breakdown.values())
+
+    # ---------- Penalize trivial repos ----------
     if data["files"] <= 3:
         score = min(score, 40)
 
-    # ---------- Penalize Popular but Shallow Repos ----------
-    if data["stars"] > 100 and data["files"] < 10:
-        score -= 10
-
-    # ---------- Clamp Final Score ----------
     score = max(20, min(score, 90))
 
     # ---------- AI Mentor Summary ----------
     if score >= 75:
         summary = (
             "This repository demonstrates strong development practices with a well-organized "
-            "codebase and consistent contribution patterns. It reflects a mature project that "
-            "could be extended or productionized with minor improvements."
+            "codebase and consistent contribution patterns."
         )
     elif score >= 55:
         summary = (
-            "This project represents an average-quality repository with a reasonable structure "
-            "and basic documentation. Improving consistency, testing, and modularity would "
-            "significantly enhance its overall quality."
+            "This project represents an average-quality repository with reasonable structure. "
+            "Improving documentation, testing, and modularity would enhance its quality."
         )
     else:
         summary = (
-            "This repository appears to be an early-stage or learning project. The project would "
-            "benefit from better organization, clearer documentation, and more consistent commits."
+            "This repository appears to be an early-stage or learning project. "
+            "Better organization and documentation would significantly improve it."
         )
 
-    return score, summary
+    return score, summary, breakdown

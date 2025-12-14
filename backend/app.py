@@ -15,14 +15,16 @@ def analyze():
     repo_url = data.get("repo_url")
 
     analysis = analyze_repo(repo_url)
-    score, summary = calculate_score(analysis)
+    score, summary, breakdown = calculate_score(analysis)
     roadmap = generate_roadmap(analysis)
 
     return jsonify({
-        "score": score,
-        "summary": summary,
-        "roadmap": roadmap
-    })
+    "score": score,
+    "summary": summary,
+    "roadmap": roadmap,
+    "breakdown": breakdown
+})
+
 
 if __name__ == "__main__":
     app.run(debug=True)
