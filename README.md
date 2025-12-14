@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/b61933f8-0025-475d-9491-14ef6f1e4fff
+
 # GitGrade 🚀
 ### AI-Powered GitHub Repository Analyzer
 
@@ -45,3 +49,10 @@ GitGrade acts as a **repository mirror**, providing honest, actionable feedback.
 ```bash
 pip install -r backend/requirements.txt
 python backend/app.py
+
+
+## 🎥 Demo Video
+link:
+https://github.com/user-attachments/assets/fe9e7417-6970-4f24-9a9f-230de2660302
+
+
